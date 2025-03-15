@@ -41,6 +41,7 @@ function handleCellClick(event) {
   if (checkWin()) {
     statusText.textContent = `Player ${currentPlayer} wins!`;
     gameActive = false;
+    highlightWinningCells();
     return;
   }
 
@@ -67,13 +68,24 @@ function checkDraw() {
   return board.every((cell) => cell !== null);
 }
 
+// Highlight Winning Cells
+function highlightWinningCells() {
+  winningCombinations.forEach((combination) => {
+    if (combination.every((index) => board[index] === currentPlayer)) {
+      combination.forEach((index) => {
+        cells[index].classList.add("winning-cell");
+      });
+    }
+  });
+}
+
 // Reset the Game
 function resetGame() {
   // Reset the board and UI
   board.fill(null);
   cells.forEach((cell) => {
     cell.textContent = "";
-    cell.classList.remove("player-X", "player-O");
+    cell.classList.remove("player-X", "player-O", "winning-cell");
   });
 
   // Reset game state
