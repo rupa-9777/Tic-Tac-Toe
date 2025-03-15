@@ -8,7 +8,10 @@
 </head>
 <body>
   <div class="container">
-    <h1>Tic Tac Toe</h1>
+    <!-- Header with Animation -->
+    <h1 class="title">Tic Tac Toe</h1>
+
+    <!-- Game Board -->
     <div id="board">
       <div class="cell" data-index="0"></div>
       <div class="cell" data-index="1"></div>
@@ -20,9 +23,19 @@
       <div class="cell" data-index="7"></div>
       <div class="cell" data-index="8"></div>
     </div>
-    <p id="status">It's X's turn</p>
-    <button id="reset">Reset Game</button>
+
+    <!-- Status Message -->
+    <p id="status" class="status-message">It's X's turn</p>
+
+    <!-- Reset Button with Animation -->
+    <button id="reset" class="reset-button">Reset Game</button>
+
+    <!-- Decorative Elements -->
+    <div class="decorative-circle circle-1"></div>
+    <div class="decorative-circle circle-2"></div>
+    <div class="decorative-circle circle-3"></div>
   </div>
+
   <script src="script.js"></script>
 </body>
 </html>
