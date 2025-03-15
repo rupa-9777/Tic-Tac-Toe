@@ -1,17 +1,100 @@
-body {
-  font-family: Arial, sans-serif;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
-  margin: 0;
-  background-color: #f4f4f4;
+/* Title Animation */
+.title {
+  font-size: 3rem;
+  color: #ff6f61;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+  animation: bounce 2s infinite;
 }
 
-.container {
-  text-align: center;
+@keyframes bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
+/* Status Message Styling */
+.status-message {
+  font-size: 1.5rem;
+  color: #333;
+  margin: 20px 0;
+  animation: fadeIn 1s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Reset Button Styling */
+.reset-button {
+  background-color: #4a90e2;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.reset-button:hover {
+  background-color: #357abd;
+  transform: scale(1.1);
+}
+
+/* Decorative Circles */
+.decorative-circle {
+  position: absolute;
+  border-radius: 50%;
+  opacity: 0.3;
+  z-index: -1;
+  animation: float 6s infinite ease-in-out;
+}
+
+.circle-1 {
+  width: 150px;
+  height: 150px;
+  background-color: #ff6f61;
+  top: 10%;
+  left: 5%;
+  animation-duration: 8s;
+}
+
+.circle-2 {
+  width: 200px;
+  height: 200px;
+  background-color: #4a90e2;
+  top: 50%;
+  left: 70%;
+  animation-duration: 10s;
+}
+
+.circle-3 {
+  width: 100px;
+  height: 100px;
+  background-color: #ffd166;
+  top: 80%;
+  left: 20%;
+  animation-duration: 6s;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+/* Board and Cells Styling */
 #board {
   display: grid;
   grid-template-columns: repeat(3, 100px);
@@ -23,22 +106,19 @@ body {
 .cell {
   width: 100px;
   height: 100px;
-  background-color: #fff;
-  border: 2px solid #000;
+  background-color: #f4f4f9;
+  border: 2px solid #4a90e2;
   display: flex;
   justify-content: center;
   align-items: center;
   font-size: 2rem;
+  font-weight: bold;
+  color: #333;
   cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
-#status {
-  font-size: 1.2rem;
-  margin: 20px 0;
-}
-
-#reset {
-  padding: 10px 20px;
-  font-size: 1rem;
-  cursor: pointer;
+.cell:hover {
+  background-color: #e0e0e7;
+  transform: scale(1.05);
 }
