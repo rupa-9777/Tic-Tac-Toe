@@ -1,77 +1,83 @@
-const cells = document.querySelectorAll('.cell');
-const statusDisplay = document.getElementById('status');
-const resetButton = document.getElementById('reset');
+// Game Variables
+let board = Array(9).fill(null); // Represents the game board
+let currentPlayer = "X"; // X starts first
+let gameActive = true; // Tracks if the game is still active
 
-let currentPlayer = 'X';
-let gameActive = true;
-let gameState = ['', '', '', '', '', '', '', '', ''];
+// DOM Elements
+const cells = document.querySelectorAll(".cell");
+const statusText = document.getElementById("status");
+const resetButton = document.getElementById("reset");
 
-const winningConditions = [
-  [0, 1, 2],
-  [3, 4, 5],
-  [6, 7, 8],
-  [0, 3, 6],
-  [1, 4, 7],
-  [2, 5, 8],
-  [0, 4, 8],
-  [2, 4, 6]
+// Winning Combinations
+const winningCombinations = [
+  [0, 1, 2], // Top row
+  [3, 4, 5], // Middle row
+  [6, 7, 8], // Bottom row
+  [0, 3, 6], // Left column
+  [1, 4, 7], // Middle column
+  [2, 5, 8], // Right column
+  [0, 4, 8], // Diagonal (top-left to bottom-right)
+  [2, 4, 6], // Diagonal (top-right to bottom-left)
 ];
 
+// Add Event Listeners
+cells.forEach((cell) => cell.addEventListener("click", handleCellClick));
+resetButton.addEventListener("click", resetGame);
+
+// Handle Cell Click
 function handleCellClick(event) {
-  const clickedCell = event.target;
-  const clickedCellIndex = parseInt(clickedCell.getAttribute('data-index'));
+  const cell = event.target;
+  const index = cell.getAttribute("data-index");
 
-  if (gameState[clickedCellIndex] !== '' || !gameActive) {
-    return;
-  }
+  // Check if the cell is already occupied or the game is over
+  if (board[index] || !gameActive) return;
 
-  gameState[clickedCellIndex] = currentPlayer;
-  clickedCell.textContent = currentPlayer;
+  // Update the board and UI
+  board[index] = currentPlayer;
+  cell.textContent = currentPlayer;
+  cell.classList.add(`player-${currentPlayer}`); // Add class for styling
 
-  checkResult();
-}
-
-function checkResult() {
-  let roundWon = false;
-
-  for (let i = 0; i < winningConditions.length; i++) {
-    const [a, b, c] = winningConditions[i];
-    if (gameState[a] === '' || gameState[b] === '' || gameState[c] === '') {
-      continue;
-    }
-    if (gameState[a] === gameState[b] && gameState[a] === gameState[c]) {
-      roundWon = true;
-      break;
-    }
-  }
-
-  if (roundWon) {
-    statusDisplay.textContent = `Player ${currentPlayer} has won!`;
+  // Check for a winner or draw
+  if (checkWin()) {
+    statusText.textContent = `Player ${currentPlayer} wins!`;
     gameActive = false;
     return;
   }
 
-  const roundDraw = !gameState.includes('');
-  if (roundDraw) {
-    statusDisplay.textContent = 'Game ended in a draw!';
+  if (checkDraw()) {
+    statusText.textContent = "It's a draw!";
     gameActive = false;
     return;
   }
 
-  currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
-  statusDisplay.textContent = `It's ${currentPlayer}'s turn`;
+  // Switch players
+  currentPlayer = currentPlayer === "X" ? "O" : "X";
+  statusText.textContent = `It's ${currentPlayer}'s turn`;
 }
 
-function handleReset() {
-  currentPlayer = 'X';
+// Check for a Win
+function checkWin() {
+  return winningCombinations.some((combination) => {
+    return combination.every((index) => board[index] === currentPlayer);
+  });
+}
+
+// Check for a Draw
+function checkDraw() {
+  return board.every((cell) => cell !== null);
+}
+
+// Reset the Game
+function resetGame() {
+  // Reset the board and UI
+  board.fill(null);
+  cells.forEach((cell) => {
+    cell.textContent = "";
+    cell.classList.remove("player-X", "player-O");
+  });
+
+  // Reset game state
+  currentPlayer = "X";
   gameActive = true;
-  gameState = ['', '', '', '', '', '', '', '', ''];
-  statusDisplay.textContent = `It's ${currentPlayer}'s turn`;
-  cells.forEach(cell => cell.textContent = '');
+  statusText.textContent = `It's ${currentPlayer}'s turn`;
 }
-
-cells.forEach(cell => cell.addEventListener('click', handleCellClick));
-resetButton.addEventListener('click', handleReset);
-
-// Initialize the game status
-statusDisplay.textContent = `It's ${currentPlayer}'s turn`;
